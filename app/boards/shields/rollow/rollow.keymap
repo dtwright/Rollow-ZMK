@@ -14,16 +14,13 @@
 #define COLR  2
 
 #define DEF     0
-#define LOWER   1
-#define RAISE   2
-#define MOUSE   3
-#define ADJUST  4
+#define PC      1
+#define LOWER   2
+#define RAISE   3
+#define MOUSE   4
+#define ADJUST  5
 
-// mouse-wheel behavior
-&mwh {
-    time-to-max-speed-ms = <250>;
-    acceleration-exponent = <1>;
-};
+#define MW_DIST 25
 
 / {
        behaviors {
@@ -36,6 +33,24 @@
                bindings = <&kp>, <&kp>;
             };
         };
+
+    	_mv: behavior_mouse_move {
+			compatible = "zmk,behavior-mouse-move";
+			label = "MOUSE_MOVE";
+			#binding-cells = <1>;
+			delay-ms = <0>;
+			time-to-max-speed-ms = <300>;
+			acceleration-exponent = <1>;
+		};
+
+		_mw: behavior_mouse_scroll {
+			compatible = "zmk,behavior-mouse-scroll";
+			label = "MOUSE_SCROLL";
+			#binding-cells = <1>;
+			delay-ms = <0>;
+			time-to-max-speed-ms = <300>;
+			acceleration-exponent = <1>;
+		};
 
         conditional_layers {
             compatible = "zmk,conditional-layers";
@@ -66,11 +81,25 @@
  */
                         bindings = <
    &kp ESC   &kp Q &kp W &kp E &kp R &kp T   &kp Y &kp U  &kp I     &kp O   &kp P    &kp SQT
-   &kp TAB   &kp A &kp S &kp D &kp F &kp G   &kp H &kp J  &kp K     &kp L   &kp SEMI &kp RCTRL
+   &mt LGUI TAB   &kp A &kp S &kp D &kp F &kp G   &kp H &kp J  &kp K     &kp L   &kp SEMI &kp RCTRL
    &mt LSHFT LPAR &kp Z &kp X &kp C &kp V &kp B   &kp N &kp M  &kp COMMA &kp DOT &kp FSLH &mt RSHFT RPAR
-                    &kp LALT &mo LOWER &lt MOUSE RET   &lt MOUSE SPACE &lt RAISE BSPC &kp RALT
+                    &kp LALT &mo LOWER &lt MOUSE RET   &lt MOUSE SPACE &lt RAISE BSPC &kp LALT
                         >;
 
+                        sensor-bindings = <&inc_dec_kp UP DOWN &inc_dec_kp RIGHT LEFT>;
+                };
+
+                pc_layer {
+/* PC
+ * This is just a tiny overlay that changes a couple mods
+ */
+                        bindings = <
+    &trans        &trans &trans &trans   &trans &trans &trans &trans &trans &trans &trans &trans
+    &mt LCTRL TAB &trans &trans &trans   &trans &trans &trans &trans &trans &trans &trans &trans
+    &trans        &trans &trans &trans   &trans &trans &trans &trans &trans &trans &trans &trans
+                                &kp RGUI &trans &trans &trans &trans &trans
+                        >;
+   
                         sensor-bindings = <&inc_dec_kp UP DOWN &inc_dec_kp RIGHT LEFT>;
                 };
 
@@ -92,7 +121,7 @@
  */
                         bindings = <
    &kp ESC    &kp N1       &kp N2       &kp N3       &kp N4       &kp N5            &kp N6   &kp N7   &kp N8 &kp N9    &kp N0 &kp BSPC
-   &bt BT_CLR &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4      &kp LEFT &kp DOWN &kp UP &kp RIGHT &trans &trans
+   &trans &trans  &trans  &trans  &trans &trans      &trans &kp UNDER &kp PLUS &trans &trans &trans
    &kp LSHFT  &trans       &trans       &trans       &trans       &trans            &trans   &trans   &trans &trans    &trans &trans
                                         &kp LGUI     &trans       &kp SPACE         &kp RET &trans &kp RALT
                             >;
@@ -117,8 +146,8 @@
  *   Encoder Right: VOL_UP <-> VOL_D
  */
                         bindings = <
-    &kp  ESC  &kp EXCL  &kp AT  &kp HASH   &kp DLLR   &kp PRCNT   &kp CARET &kp AMPS  &kp KP_MULTIPLY &kp LPAR &kp RPAR &kp BSPC
-    &kp LCTRL &trans    &trans  &kp C_PREV &kp C_NEXT &trans      &kp MINUS &kp EQUAL &kp LBKT        &kp RBKT &kp PIPE &kp GRAVE
+    &kp  ESC  &kp N1       &kp N2       &kp N3       &kp N4       &kp N5            &kp N6   &kp N7   &kp N8 &kp N9    &kp N0 &kp BSPC
+    &kp LCTRL &trans    &trans  &trans &trans &trans      &trans &kp MINUS &kp EQUAL &kp LBKT        &kp RBKT &kp PIPE
     &kp LSHFT &trans    &trans  &trans     &trans     &trans      &trans    &trans    &trans          &trans   &kp BSLH &kp TILDE
                                    &kp LGUI &trans &kp SPACE   &kp RET &trans &kp RALT
                         >;
@@ -130,16 +159,14 @@
 /* MOUSE
  */
                         bindings = <
-    &none &mkp LCLK  &mkp MCLK  &mkp RCLK  &mwh SCROLL_UP   &none    &none    &none  &none   &none  &none  &none 
-    &none  &none &none  &none  &none &none &none  &none  &none  &none         &none  &none
-    &none  &none    &none  &mwh SCROLL_LEFT     &mwh SCROLL_DOWN     &mwh SCROLL_RIGHT      &none    &none    &none          &none   &none  &none 
-                                   &none  &none &none    &none  &none &none 
+    &kp ESC &mkp LCLK      &mkp MCLK      &mkp RCLK        &_mw SCROLL_VERT(MW_DIST)  &none             &none    &none     &none     &none     &none &none 
+    &none   &_mv MOVE_LEFT &_mv MOVE_DOWN &_mv MOVE_UP     &_mv MOVE_RIGHT  &none             &kp LEFT &kp DOWN  &kp UP    &kp RIGHT &none &none
+    &none   &none          &none          &_mw SCROLL_HOR(-MW_DIST) &_mw SCROLL_VERT(-MW_DIST) &_mw SCROLL_HOR(MW_DIST) &kp HOME &kp PG_DN &kp PG_UP &kp END   &none &none
+                                          &none            &none            &none             &none    &none     &none 
                         >;
    
                         sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp PG_UP PG_DN>;
                 };
-
-        };
 
                 adjust_layer {
 /* ADJUST
@@ -158,7 +185,7 @@
  *   Encoder Right: VOL_UP <-> VOL_D
  */
                         bindings = <
-    &kp  ESC  &kp EXCL  &kp AT  &kp HASH   &kp DLLR   &kp PRCNT   &kp CARET &kp AMPS  &kp KP_MULTIPLY &kp LPAR &kp RPAR &kp BSPC
+    &trans  &kp C_PREV  &kp C_PP  &kp C_NEXT   &none   &none   &kp CARET &kp AMPS  &kp KP_MULTIPLY &kp LPAR &kp RPAR &tog PC
     &bt BT_CLR &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4      &kp MINUS &kp EQUAL &kp LBKT        &kp RBKT &kp PIPE &kp GRAVE
     &kp LSHFT &trans    &trans  &trans     &trans     &trans      &trans    &trans    &trans          &trans   &kp BSLH &kp TILDE
                                    &kp LGUI &trans &kp SPACE   &kp RET &trans &kp RALT
@@ -167,4 +194,5 @@
                         sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp PG_UP PG_DN>;
                 };
 
+        };
 };
