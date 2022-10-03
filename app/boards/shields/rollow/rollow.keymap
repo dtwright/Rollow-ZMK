@@ -20,37 +20,39 @@
 #define MOUSE   4
 #define ADJUST  5
 
-#define MW_DIST 25
+#define MW_DIST 35
 
 / {
        behaviors {
-           tp: tap_mods {
-               compatible = "zmk,behavior-hold-tap";
-               label = "TAP_MODS";
-               #binding-cells = <2>;
-               tapping_term_ms = <200>;
-               flavor = "tap-preferred";
-               bindings = <&kp>, <&kp>;
+            tp: tap_mods {
+                compatible = "zmk,behavior-hold-tap";
+                label = "TAP_MODS";
+                #binding-cells = <2>;
+                tapping-term-ms = <150>;
+                quick-tap-ms = <200>;
+                flavor = "tap-preferred";
+                retro-tap;
+                bindings = <&kp>, <&kp>;
+            };
+
+            mmv: behavior_mouse_move {
+                compatible = "zmk,behavior-mouse-move";
+                label = "MOUSE_MOVE";
+                #binding-cells = <1>;
+                delay-ms = <0>;
+                time-to-max-speed-ms = <300>;
+                acceleration-exponent = <2>;
+            };
+
+            mwh: behavior_mouse_scroll {
+                compatible = "zmk,behavior-mouse-scroll";
+                label = "MOUSE_SCROLL";
+                #binding-cells = <1>;
+                delay-ms = <0>;
+                time-to-max-speed-ms = <300>;
+                acceleration-exponent = <1>;
             };
         };
-
-    	_mv: behavior_mouse_move {
-			compatible = "zmk,behavior-mouse-move";
-			label = "MOUSE_MOVE";
-			#binding-cells = <1>;
-			delay-ms = <0>;
-			time-to-max-speed-ms = <300>;
-			acceleration-exponent = <1>;
-		};
-
-		_mw: behavior_mouse_scroll {
-			compatible = "zmk,behavior-mouse-scroll";
-			label = "MOUSE_SCROLL";
-			#binding-cells = <1>;
-			delay-ms = <0>;
-			time-to-max-speed-ms = <300>;
-			acceleration-exponent = <1>;
-		};
 
         conditional_layers {
             compatible = "zmk,conditional-layers";
@@ -83,7 +85,7 @@
    &kp ESC   &kp Q &kp W &kp E &kp R &kp T   &kp Y &kp U  &kp I     &kp O   &kp P    &kp SQT
    &mt LGUI TAB   &kp A &kp S &kp D &kp F &kp G   &kp H &kp J  &kp K     &kp L   &kp SEMI &kp RCTRL
    &mt LSHFT LPAR &kp Z &kp X &kp C &kp V &kp B   &kp N &kp M  &kp COMMA &kp DOT &kp FSLH &mt RSHFT RPAR
-                    &kp LALT &mo LOWER &lt MOUSE RET   &lt MOUSE SPACE &lt RAISE BSPC &kp LALT
+                    &kp LALT &mo RAISE &lt MOUSE RET   &lt MOUSE SPACE &lt LOWER BSPC &kp LALT
                         >;
 
                         sensor-bindings = <&inc_dec_kp UP DOWN &inc_dec_kp RIGHT LEFT>;
@@ -94,10 +96,10 @@
  * This is just a tiny overlay that changes a couple mods
  */
                         bindings = <
-    &trans        &trans &trans &trans   &trans &trans &trans &trans &trans &trans &trans &trans
-    &mt LCTRL TAB &trans &trans &trans   &trans &trans &trans &trans &trans &trans &trans &trans
-    &trans        &trans &trans &trans   &trans &trans &trans &trans &trans &trans &trans &trans
-                                &kp RGUI &trans &trans &trans &trans &trans
+    &trans        &trans &trans &trans  &trans &trans &trans &trans &trans &trans &trans &trans
+    &mt LCTRL TAB &trans &trans &trans  &trans &trans &trans &trans &trans &trans &trans &trans
+    &trans        &trans &trans &trans  &trans &trans &trans &trans &trans &trans &trans &trans
+                                &kp LGUI  &trans &trans &trans &trans &trans
                         >;
    
                         sensor-bindings = <&inc_dec_kp UP DOWN &inc_dec_kp RIGHT LEFT>;
@@ -120,9 +122,9 @@
  *   Encoder Right: -
  */
                         bindings = <
-   &kp ESC    &kp N1       &kp N2       &kp N3       &kp N4       &kp N5            &kp N6   &kp N7   &kp N8 &kp N9    &kp N0 &kp BSPC
-   &trans &trans  &trans  &trans  &trans &trans      &trans &kp UNDER &kp PLUS &trans &trans &trans
-   &kp LSHFT  &trans       &trans       &trans       &trans       &trans            &trans   &trans   &trans &trans    &trans &trans
+   &trans    &kp N1       &kp N2       &kp N3       &kp N4       &kp N5            &kp N6   &kp N7   &kp N8 &kp N9    &kp N0 &kp BSLH 
+   &kp GRAVE &trans  &trans  &trans  &trans &trans      &trans &kp MINUS &kp EQUAL &trans &trans &trans
+   &trans  &trans       &trans       &trans       &trans       &trans            &trans   &trans   &trans &trans    &trans &trans
                                         &kp LGUI     &trans       &kp SPACE         &kp RET &trans &kp RALT
                             >;
 
@@ -146,9 +148,9 @@
  *   Encoder Right: VOL_UP <-> VOL_D
  */
                         bindings = <
-    &kp  ESC  &kp N1       &kp N2       &kp N3       &kp N4       &kp N5            &kp N6   &kp N7   &kp N8 &kp N9    &kp N0 &kp BSPC
-    &kp LCTRL &trans    &trans  &trans &trans &trans      &trans &kp MINUS &kp EQUAL &kp LBKT        &kp RBKT &kp PIPE
-    &kp LSHFT &trans    &trans  &trans     &trans     &trans      &trans    &trans    &trans          &trans   &kp BSLH &kp TILDE
+    &trans  &kp N1       &kp N2       &kp N3       &kp N4       &kp N5            &kp N6   &kp N7   &kp N8 &kp N9    &kp N0 &kp PIPE
+    &kp TILDE &trans    &trans  &trans &trans &trans      &trans &kp UNDER &kp PLUS &kp LBKT        &kp RBKT &kp PIPE
+    &trans &trans    &trans  &trans     &trans     &trans      &trans    &trans    &trans          &trans   &trans &trans
                                    &kp LGUI &trans &kp SPACE   &kp RET &trans &kp RALT
                         >;
    
@@ -159,9 +161,9 @@
 /* MOUSE
  */
                         bindings = <
-    &kp ESC &mkp LCLK      &mkp MCLK      &mkp RCLK        &_mw SCROLL_VERT(MW_DIST)  &none             &none    &none     &none     &none     &none &none 
-    &none   &_mv MOVE_LEFT &_mv MOVE_DOWN &_mv MOVE_UP     &_mv MOVE_RIGHT  &none             &kp LEFT &kp DOWN  &kp UP    &kp RIGHT &none &none
-    &none   &none          &none          &_mw SCROLL_HOR(-MW_DIST) &_mw SCROLL_VERT(-MW_DIST) &_mw SCROLL_HOR(MW_DIST) &kp HOME &kp PG_DN &kp PG_UP &kp END   &none &none
+    &kp ESC &mkp LCLK      &mkp MCLK      &mkp RCLK        &mwh SCROLL_VERT(MW_DIST)  &none             &none    &none     &none     &none     &none &none 
+    &none   &mmv MOVE_LEFT &mmv MOVE_DOWN &mmv MOVE_UP     &mmv MOVE_RIGHT  &none             &kp LEFT &kp DOWN  &kp UP    &kp RIGHT &none &none
+    &none   &none          &none          &mwh SCROLL_HOR(-MW_DIST) &mwh SCROLL_VERT(-MW_DIST) &mwh SCROLL_HOR(MW_DIST) &kp HOME &kp PG_DN &kp PG_UP &kp END   &none &none
                                           &none            &none            &none             &none    &none     &none 
                         >;
    
