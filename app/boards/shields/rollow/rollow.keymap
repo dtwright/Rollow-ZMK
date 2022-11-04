@@ -30,7 +30,7 @@
                 label = "TAP_MODS";
                 tapping-term-ms = <175>;
                 quick-tap-ms = <250>;
-                flavor = "tap-preferred";
+                flavor = "hold-preferred";
                 #binding-cells = <2>;
                 bindings = <&kp>, <&kp>;
             };
@@ -50,7 +50,7 @@
                 label = "MOUSE_MOVE";
                 #binding-cells = <1>;
                 delay-ms = <0>;
-                time-to-max-speed-ms = <300>;
+                time-to-max-speed-ms = <200>;
                 acceleration-exponent = <2>;
             };
 
@@ -59,8 +59,8 @@
                 label = "MOUSE_SCROLL";
                 #binding-cells = <1>;
                 delay-ms = <0>;
-                time-to-max-speed-ms = <300>;
-                acceleration-exponent = <1>;
+                time-to-max-speed-ms = <200>;
+                acceleration-exponent = <2>;
             };
         };
 
@@ -98,7 +98,7 @@
                     &kp LALT &mo RAISE &tl MOUSE RET   &tl MOUSE SPACE &tl LOWER BSPC &kp LALT
                         >;
 
-                        sensor-bindings = <&inc_dec_kp UP DOWN &inc_dec_kp RIGHT LEFT>;
+                        sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp PG_UP PG_DN>;
                 };
 
                 pc_layer {
@@ -112,7 +112,7 @@
                                 &kp LGUI  &trans &trans &trans &trans &trans
                         >;
    
-                        sensor-bindings = <&inc_dec_kp UP DOWN &inc_dec_kp RIGHT LEFT>;
+                        sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp PG_UP PG_DN>;
                 };
 
                 lower_layer {
@@ -134,11 +134,11 @@
                         bindings = <
    &trans    &kp N1       &kp N2       &kp N3       &kp N4       &kp N5            &kp N6   &kp N7   &kp N8 &kp N9    &kp N0 &kp BSLH 
    &kp GRAVE &trans  &trans  &trans  &trans &trans      &trans &kp MINUS &kp EQUAL &trans &trans &trans
-   &trans  &trans       &trans       &trans       &trans       &trans            &trans   &trans   &trans &trans    &trans &trans
+   &trans  &trans       &trans       &trans       &trans       &kp LBKT            &kp RBKT   &trans   &trans &trans    &trans &trans
                                         &kp LGUI     &trans       &kp SPACE         &kp RET &trans &kp RALT
                             >;
 
-                            //sensor-bindings = <&inc_dec_kp PG_UP PG_DN &inc_dec_kp PG_UP PG_DN>;
+                            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp PG_UP PG_DN>;
                 };
 
                 raise_layer {
@@ -160,7 +160,7 @@
                         bindings = <
     &trans  &kp N1       &kp N2       &kp N3       &kp N4       &kp N5            &kp N6   &kp N7   &kp N8 &kp N9    &kp N0 &kp PIPE
     &kp TILDE &trans    &trans  &trans &trans &trans      &trans &kp UNDER &kp PLUS &kp LBKT        &kp RBKT &kp PIPE
-    &ext_power EP_ON &trans    &trans  &trans     &trans     &trans      &trans    &trans    &trans          &trans   &trans &trans
+    &trans &trans    &trans  &trans     &trans     &kp LBRC      &kp RBRC    &trans    &trans          &trans   &trans &trans
                                    &kp LGUI &trans &kp SPACE   &kp RET &trans &kp RALT
                         >;
    
@@ -198,7 +198,7 @@
  */
                         bindings = <
     &trans  &kp C_PREV  &kp C_PP  &kp C_NEXT   &none   &none   &kp CARET &kp AMPS  &kp KP_MULTIPLY &kp LPAR &kp RPAR &tog PC
-    &bt BT_CLR &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4      &kp MINUS &kp EQUAL &kp LBKT        &kp RBKT &kp PIPE &kp GRAVE
+    &bt BT_CLT &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4      &trans &kp C_VOL_DOWN &kp C_VOL_UP &trans &trans &trans 
     &kp LSHFT &trans    &trans  &trans     &trans     &trans      &trans    &trans    &trans          &trans   &kp BSLH &kp TILDE
                                    &kp LGUI &trans &kp SPACE   &kp RET &trans &kp RALT
                         >;
