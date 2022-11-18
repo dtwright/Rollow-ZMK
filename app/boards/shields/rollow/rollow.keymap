@@ -29,9 +29,9 @@
             tp: tap_mods {
                 compatible = "zmk,behavior-hold-tap";
                 label = "TAP_MODS";
-                tapping-term-ms = <175>;
-                quick-tap-ms = <250>;
-                flavor = "hold-preferred";
+                tapping-term-ms = <275>;
+                quick-tap-ms = <200>;
+                flavor = "balanced";
                 #binding-cells = <2>;
                 bindings = <&kp>, <&kp>;
             };
@@ -39,9 +39,9 @@
             tl: layer_tap {
                 compatible = "zmk,behavior-hold-tap";
                 label = "LAYER_TAP";
-                tapping-term-ms = <175>;
-                quick-tap-ms = <250>;
-                flavor = "tap-preferred";
+                tapping-term-ms = <275>;
+                quick-tap-ms = <200>;
+                flavor = "balanced";
                 #binding-cells = <2>;
                 bindings = <&mo>, <&kp>;
             };
