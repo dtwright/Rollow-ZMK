@@ -29,8 +29,8 @@
             tp: tap_mods {
                 compatible = "zmk,behavior-hold-tap";
                 label = "TAP_MODS";
-                tapping-term-ms = <275>;
-                quick-tap-ms = <200>;
+                tapping-term-ms = <225>;
+                quick-tap-ms = <190>;
                 flavor = "balanced";
                 #binding-cells = <2>;
                 bindings = <&kp>, <&kp>;
@@ -39,9 +39,9 @@
             tl: layer_tap {
                 compatible = "zmk,behavior-hold-tap";
                 label = "LAYER_TAP";
-                tapping-term-ms = <275>;
-                quick-tap-ms = <200>;
-                flavor = "balanced";
+                tapping-term-ms = <225>;
+                quick-tap-ms = <190>;
+                flavor = "hold-preferred";
                 #binding-cells = <2>;
                 bindings = <&mo>, <&kp>;
             };
@@ -93,7 +93,7 @@
  *   Encoder Right: Left <-> Right
  */
                         bindings = <
-   &kp ESC   &kp Q &kp W &kp E &kp R &kp T   &kp Y &kp U  &kp I     &kp O   &kp P    &kp SQT
+   &kp ESC   &kp Q &kp W &kp E &kp R &kp T   &kp Y &kp U  &kp I     &kp O   &kp P    &mt RGUI SQT
    &tp LGUI TAB   &kp A &kp S &tp LCTRL D &tp LALT F &kp G   &kp H &kp J  &kp K     &kp L   &kp SEMI &kp RCTRL
    &tp LSHFT LPAR &kp Z &kp X &kp C &kp V &kp B   &kp N &kp M  &kp COMMA &kp DOT &kp FSLH &tp RSHFT RPAR
                     &kp LALT &mo RAISE &tl MOUSE RET   &tl MOUSE SPACE &tl LOWER BSPC &kp LALT
@@ -107,7 +107,7 @@
  * This is just a tiny overlay that changes a couple mods
  */
                         bindings = <
-    &trans        &trans &trans &trans  &trans &trans &trans &trans &trans &trans &trans &trans
+    &trans        &trans &trans &trans  &trans &trans &trans &trans &trans &trans &trans &kp SQT
     &mt LCTRL TAB &trans &trans &trans  &trans &trans &trans &trans &trans &trans &trans &trans
     &trans        &trans &trans &trans  &trans &trans &trans &trans &trans &trans &trans &trans
                                 &kp LGUI  &trans &trans &trans &trans &trans
@@ -135,7 +135,7 @@
                         bindings = <
    &trans    &kp N1       &kp N2       &kp N3       &kp N4       &kp N5            &kp N6   &kp N7   &kp N8 &kp N9    &kp N0 &kp BSLH 
    &kp GRAVE &trans  &trans  &trans  &trans &trans      &trans &kp MINUS &kp EQUAL &trans &trans &trans
-   &trans  &trans       &trans       &trans       &trans       &kp LBKT            &kp RBKT   &trans   &trans &trans    &trans &trans
+   &tp LSHIFT LBKT  &trans       &trans       &trans       &trans       &kp LBKT            &kp RBKT   &trans   &trans &trans &trans  &tp RSHIFT RBKT
                                         &kp LGUI     &trans       &kp SPACE         &kp RET &trans &kp RALT
                             >;
 
@@ -161,7 +161,7 @@
                         bindings = <
     &trans  &kp N1       &kp N2       &kp N3       &kp N4       &kp N5            &kp N6   &kp N7   &kp N8 &kp N9    &kp N0 &kp PIPE
     &kp TILDE &trans    &trans  &trans &trans &trans      &trans &kp UNDER &kp PLUS &kp LBKT        &kp RBKT &kp PIPE
-    &trans &trans    &trans  &trans     &trans     &kp LBRC      &kp RBRC    &trans    &trans          &trans   &trans &trans
+    &tp LSHIFT LBRC &trans    &trans  &trans     &trans     &kp LBRC      &kp RBRC    &trans    &trans          &trans   &trans &tp RSHIFT RBRC
                                    &kp LGUI &trans &kp SPACE   &kp RET &trans &kp RALT
                         >;
    
